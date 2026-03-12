@@ -1,8 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.lang.ScopedValue;
 
 @Entity
     @Table(name = "users")
@@ -14,15 +13,11 @@ import java.lang.ScopedValue;
         @Column(unique = true, nullable = false)
         private String username;
 
+        @JsonIgnore
         @Column(nullable = false)
         private String password;
 
         public User() {}
-
-        public User(String username, String password) {
-            this.username = username;
-            this.password = password;
-        }
 
         public String getUsername() {
             return username;
