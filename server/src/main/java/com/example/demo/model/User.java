@@ -2,7 +2,9 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
-    @Entity
+import java.lang.ScopedValue;
+
+@Entity
     @Table(name = "users")
     public class User {
         @Id
@@ -21,7 +23,6 @@ import jakarta.persistence.*;
             this.username = username;
             this.password = password;
         }
-
 
         public String getUsername() {
             return username;
