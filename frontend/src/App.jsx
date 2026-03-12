@@ -1,9 +1,7 @@
 import './App.css'
 
 function App() {
-
-  return ("Hello, Vite + React!")
-
+  return (<div>Hello, Vite + React!</div>)
 }
 
 export default App
