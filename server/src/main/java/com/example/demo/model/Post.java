@@ -1,6 +1,4 @@
 package com.example.demo.model;
-
-import com.example.demo.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,6 +18,7 @@ public class Post {
     private String content;
     private String imageUrl;
     private LocalDateTime createdAt;
+    private String username;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -36,27 +35,8 @@ public class Post {
     @PrePersist
     protected void onCreate() { this.createdAt = LocalDateTime.now(); }
 
-    public User getUser() {
-        return user;
-    }
-
-    public Set<String> getLikes() {
-        return likes;
-    }
-
-    public List<String> getComments() {
-        return comments;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     public String imageUrl() {
         return imageUrl;
     }
 
-    public String getContent() {
-        return content;
-    }
 }

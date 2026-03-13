@@ -30,7 +30,6 @@ function Login() {
       }
       const data = await response.text();
       login({ ...data, name: data.username || formData.username });
-      alert('Login successful!');
       navigate('/');
     } catch (error) {
       alert(error.message);

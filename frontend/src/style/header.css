@@ -64,26 +64,3 @@ nav a[href="/login"]:hover {
   background: #ef4444;
   box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
 }
-
-
-nav button {
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: opacity 0.2s;
-}
-
-nav button:hover {
-  opacity: 0.85;
-}
-
-/* Text spacing */
-nav span {
-  font-size: 0.9rem;
-  color: #374151;
-}

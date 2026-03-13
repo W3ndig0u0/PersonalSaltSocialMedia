@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/users")
 public class UserController {
     @Autowired
@@ -34,7 +34,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Wrong Password!");
         }
     }
-
 
     @GetMapping("/all")
     public List<User> getAllUsers() {
