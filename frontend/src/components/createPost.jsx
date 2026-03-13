@@ -40,10 +40,16 @@ const CreatePost = ({ onPostCreated }) => {
       <form onSubmit={handleSubmit}>
         <h3>Share something, {user.name}!</h3>
         <textarea
-          placeholder="post text"
+          placeholder="Post content..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
+        />
+        <input
+          type="text"
+          placeholder="Image URL (optional)"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
         />
         <button type="submit">Post</button>
       </form>

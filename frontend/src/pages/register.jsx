@@ -1,11 +1,16 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
+import { useAuth } from '../service/authContext';
 
 function Register() {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +22,9 @@ function Register() {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        console.log('Success!');
+        const data = await response.text();
+        login({ ...data, name: data.username || formData.username });
+        navigate('/');
       }
     } catch (error) {
       console.error('Error sending data:', error);
