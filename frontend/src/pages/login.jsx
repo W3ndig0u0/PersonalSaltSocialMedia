@@ -1,6 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../App.css';
+import { useAuth } from '../service/authContext';
 
 function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -16,21 +21,25 @@ function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+
       if (!response.ok) {
         if (response.status === 404) {
           throw new Error('User not found.');
         }
         throw new Error('Incorrect password.');
       }
+      const data = await response.text();
+      login({ ...data, name: data.username || formData.username });
       alert('Login successful!');
+      navigate('/');
     } catch (error) {
       alert(error.message);
     }
-  }
+  };
 
   return (
     <div>
-      <h1>Login Page</h1>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -48,7 +57,6 @@ function Login() {
       </form>
     </div>
   );
-
 }
 
 export default Login;

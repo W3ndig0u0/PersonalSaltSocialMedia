@@ -13,7 +13,6 @@ import jakarta.persistence.*;
         @Column(unique = true, nullable = false)
         private String username;
 
-        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         @Column(nullable = false)
         private String password;
 

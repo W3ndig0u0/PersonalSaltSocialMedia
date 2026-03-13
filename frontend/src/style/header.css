@@ -1,0 +1,89 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 10%;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+nav>div>a {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #4f46e5;
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #4b5563;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+nav a:hover {
+  color: #4f46e5;
+}
+
+nav a[href="/register"] {
+  background: #4f46e5;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+}
+
+nav a[href="/register"]:hover {
+  background: #4f46e5;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+
+nav a[href="/login"] {
+  background: #ef4444;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+}
+
+nav a[href="/login"]:hover {
+  background: #ef4444;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+
+nav button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: opacity 0.2s;
+}
+
+nav button:hover {
+  opacity: 0.85;
+}
+
+/* Text spacing */
+nav span {
+  font-size: 0.9rem;
+  color: #374151;
+}
