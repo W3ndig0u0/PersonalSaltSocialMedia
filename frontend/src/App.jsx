@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getAllUsers } from './service/api'; // Se till att sökvägen stämmer
+import Register from './pages/register';
+import { getAllUsers } from './service/api';
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -30,6 +31,7 @@ function App() {
       ) : (
         <p>No users found.</p>
       )}
+      <Register />
     </div>
   );
 }

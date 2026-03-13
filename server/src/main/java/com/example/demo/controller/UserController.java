@@ -4,7 +4,6 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -19,7 +18,6 @@ public class UserController {
         userRepository.save(newUser);
         return "User " + newUser.getUsername() + " Saved!";
     }
-
     @PostMapping("/login")
     public String login(@RequestBody User loginDetails) {
         User user = userRepository.findByUsername(loginDetails.getUsername());
@@ -39,6 +37,5 @@ public class UserController {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
 
 }

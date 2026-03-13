@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,7 +13,7 @@ import jakarta.persistence.*;
         @Column(unique = true, nullable = false)
         private String username;
 
-        @JsonIgnore
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         @Column(nullable = false)
         private String password;
 
@@ -22,17 +22,8 @@ import jakarta.persistence.*;
         public String getUsername() {
             return username;
         }
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
         public String getPassword() {
             return password;
         }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
     }
 
