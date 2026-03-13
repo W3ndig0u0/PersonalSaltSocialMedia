@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,19 +21,20 @@ public class UserController {
         return "User " + newUser.getUsername() + " Saved!";
     }
     @PostMapping("/login")
-    public String login(@RequestBody User loginDetails) {
+    public ResponseEntity<String> login(@RequestBody User loginDetails) {
         User user = userRepository.findByUsername(loginDetails.getUsername());
 
         if (user == null) {
-            return "User Not Found!";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found!");
         }
 
         if (user.getPassword().equals(loginDetails.getPassword())) {
-            return user.getUsername();
+            return ResponseEntity.ok(user.getUsername());
         } else {
-            return "Wrong Password!";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Wrong Password!");
         }
     }
+
 
     @GetMapping("/all")
     public List<User> getAllUsers() {
