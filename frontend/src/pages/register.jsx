@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../App.css';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../service/authContext';
+import '../style/login.css';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ function Register() {
   };
 
   return (
-    <div className="register">
+    <div className="login">
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <input
@@ -49,6 +49,10 @@ function Register() {
         />
         <button type="submit">Register</button>
       </form>
+      <div className="lower-section">
+        <p>Already have an account?</p>
+        <li><Link to="/login">Login</Link></li>
+      </div>
     </div>
   );
 }

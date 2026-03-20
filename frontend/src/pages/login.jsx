@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../App.css';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../service/authContext';
+import '../style/login.css';
+
 
 function Login() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="login">
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
@@ -54,6 +55,10 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
+      <div className="lower-section">
+        <p>Don't have an account?</p>
+        <li><Link to="/register">Register</Link></li>
+      </div>
     </div>
   );
 }

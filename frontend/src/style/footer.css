@@ -1,0 +1,20 @@
+.footer-user-actions {
+  display: flex;
+  gap: 15px;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 20px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 200ms;
+}
+
+.footer a:hover {
+  color: var(--accent-primary);
+}

@@ -35,6 +35,32 @@ public class UserController {
         }
     }
 
+    @PostMapping("/{username}/bio")
+    public ResponseEntity<String> bio(@PathVariable String username, @RequestBody String bioText) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found!");
+        }
+        user.setBio(bioText);
+        userRepository.save(user);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/{username}/pfp")
+    public ResponseEntity<String> pfp(@PathVariable String username, @RequestBody String imageUrl) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found!");
+        }
+        user.setImageUrl(imageUrl);
+        userRepository.save(user);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{username}")
+    public User getSpecificUser(@PathVariable  String username) {
+        return userRepository.findByUsername(username);
+    }
+
     @GetMapping("/all")
     public List<User> getAllUsers() {
         return userRepository.findAll();

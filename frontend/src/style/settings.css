@@ -1,0 +1,19 @@
+.settings-page {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 30px;
+}
+
+.url-input {
+  width: 100%;
+  height: 40px;
+  padding: 0.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}

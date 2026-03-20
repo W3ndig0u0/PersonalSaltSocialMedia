@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import '../App.css';
 import { useAuth } from '../service/authContext';
+import '../style/createPost.css';
 
 const CreatePost = ({ onPostCreated }) => {
   const { user } = useAuth();
@@ -29,6 +29,7 @@ const CreatePost = ({ onPostCreated }) => {
         setContent('');
         setImageUrl('');
         if (onPostCreated) onPostCreated();
+        window.location.href = '/';
       }
     } catch (error) {
       console.error("Error creating post:", error);
@@ -36,22 +37,28 @@ const CreatePost = ({ onPostCreated }) => {
   };
 
   return (
-    <div className="post-form-container">
-      <form onSubmit={handleSubmit}>
-        <h3>Share something, {user.name}!</h3>
+    <div className="post-card">
+      <div className="post-header">
+        <h3>Create Post</h3>
+      </div>
+      <form className="post-form" onSubmit={handleSubmit}>
         <textarea
-          placeholder="Post content..."
+          className="post-input post-textarea"
+          placeholder="What's on your mind?"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
         />
-        <input
-          type="text"
-          placeholder="Image URL (optional)"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-        <button type="submit">Post</button>
+        <div className="post-footer">
+          <input
+            className="post-input post-url"
+            type="text"
+            placeholder="Add an image URL..."
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+          <button className="post-button" type="submit">Post</button>
+        </div>
       </form>
     </div>
   );

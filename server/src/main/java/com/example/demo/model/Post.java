@@ -29,8 +29,9 @@ public class Post {
     @Column(name = "username")
     private Set<String> likes = new HashSet<>();
 
-    @ElementCollection
-    private List<String> comments = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "post_id")
+    private List<Comment> comments = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() { this.createdAt = LocalDateTime.now(); }
@@ -38,5 +39,4 @@ public class Post {
     public String imageUrl() {
         return imageUrl;
     }
-
 }

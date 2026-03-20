@@ -1,0 +1,61 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  padding: 1rem;
+}
+
+.login h1 {
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.login form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 450px;
+  gap: 6px;
+}
+
+.login input {
+  padding: 16px;
+  margin: 10px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.login input:focus {
+  border-color: var(--link-color);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.lower-section {
+  margin-top: 20px;
+  text-align: center;
+}

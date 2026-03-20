@@ -1,66 +1,40 @@
 nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 10%;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 100;
   font-family: 'Segoe UI', Roboto, sans-serif;
-}
-
-nav>div>a {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #4f46e5;
-  text-decoration: none;
-  letter-spacing: -1px;
+  padding: 1rem 1rem;
+  background: var(--bg-main);
+  width: 100%;
 }
 
 nav ul {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-content: space-between;
   list-style: none;
-  margin: 0;
-  padding: 0;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+  transition: 200ms ease;
+  cursor: pointer;
+}
+
+.logo:hover {
+  transform: scale(1.2);
 }
 
 nav a {
-  text-decoration: none;
-  color: #4b5563;
+  color: var(--text-primary);
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: 200ms;
 }
 
-nav a:hover {
-  color: #4f46e5;
-}
-
-nav a[href="/register"] {
-  background: #4f46e5;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 50px;
-}
-
-nav a[href="/register"]:hover {
-  background: #4f46e5;
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-}
-
-
-nav a[href="/login"] {
-  background: #ef4444;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 50px;
-}
-
-nav a[href="/login"]:hover {
-  background: #ef4444;
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+nav .profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
 }
