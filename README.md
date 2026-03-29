@@ -1,4 +1,4 @@
-# PersonalSaltSocialMedia (Threads Architecture)
+# PersonalSaltSocialMedia
 
 A robust, feature-rich Social Media Backend inspired by **Threads**, built with **Spring Boot** and **MySQL**. This project demonstrates a deep understanding of complex data relationships, user personalization, and real-time interaction flows in a modern MVC environment.
 
