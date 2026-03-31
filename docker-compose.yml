@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: salt-social-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: "123"
+      POSTGRES_DB: salt_social_media_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
