@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useAuth } from '../service/authContext';
-import '../style/createPost.css';
+import { useState } from "react";
+import { useAuth } from "../service/authContext";
+import "../style/createPost.css";
 
 const CreatePost = ({ onPostCreated }) => {
   const { user } = useAuth();
-  const [content, setContent] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [content, setContent] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   if (!user) return null;
 
@@ -15,21 +15,21 @@ const CreatePost = ({ onPostCreated }) => {
     const newPost = {
       content,
       imageUrl,
-      username: user.name
+      username: user.name,
     };
 
     try {
-      const response = await fetch('http://localhost:8080/posts/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:8080/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newPost),
       });
 
       if (response.ok) {
-        setContent('');
-        setImageUrl('');
+        setContent("");
+        setImageUrl("");
         if (onPostCreated) onPostCreated();
-        window.location.href = '/';
+        window.location.href = "/";
       }
     } catch (error) {
       console.error("Error creating post:", error);
@@ -57,7 +57,9 @@ const CreatePost = ({ onPostCreated }) => {
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
           />
-          <button className="post-button" type="submit">Post</button>
+          <button className="post-button" type="submit">
+            Post
+          </button>
         </div>
       </form>
     </div>

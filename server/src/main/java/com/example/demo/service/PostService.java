@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.CreatePostRequest;
-import com.example.demo.dto.PostDTO;
+import com.example.demo.dto.*;
+import com.example.demo.model.Comment;
 import com.example.demo.model.Post;
 import com.example.demo.model.User;
 import com.example.demo.repository.PostRepository;
@@ -52,14 +52,49 @@ public class PostService {
         return convertToDTO(post);
     }
 
+    public PostDTO toggleLike(Long id, LikeRequest request) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found!"));
+        if (post.getLikes().contains(request.username())) {
+            post.getLikes().remove(request.username());
+        } else {
+            post.getLikes().add(request.username());
+        }
+        Post savePost = postRepository.save(post);
+        return convertToDTO(savePost);
+    }
+
+    public PostDTO addComment(Long id, CommentRequest request) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found!"));
+        User author = userRepository.findByUsername(request.username());
+        if (author == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
+        }
+        Comment newComment = new Comment(author, request.content());
+        post.getComments().add(newComment);
+
+        Post savedPost = postRepository.save(post);
+        return convertToDTO(savedPost);
+    }
+
     private PostDTO convertToDTO(Post post) {
+        List<CommentDTO> commentDTOs = post.getComments().stream()
+                .map(comment -> new CommentDTO(
+                        comment.getId(),
+                        comment.getText(),
+                        comment.getPoster().getUsername(),
+                        comment.getCreatedAt()
+                ))
+                .toList();
+
         return new PostDTO(
                 post.getId(),
                 post.getContent(),
                 post.getImageUrl(),
                 post.getCreatedAt(),
                 post.getUser().getUsername(),
-                new ArrayList<>(),
+                commentDTOs,
                 post.getLikes()
         );
     }

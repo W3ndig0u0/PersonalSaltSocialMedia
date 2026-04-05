@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import Post from '../pages/post';
-import { getAllPost } from '../service/api';
-import '../style/postingList.css';
+import { useEffect, useState } from "react";
+import Post from "../pages/post";
+import { getAllPost } from "../service/api";
+import "../style/postingList.css";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -13,7 +13,7 @@ const PostList = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        getAllPost().then(postsData => {
+        getAllPost().then((postsData) => {
           setPosts(postsData);
         });
       } catch (err) {
@@ -26,15 +26,18 @@ const PostList = () => {
 
   return (
     <div className="post-list">
-      {[...posts].reverse().map(p => {
-        console.log(p);
-        return (
+      {posts && posts.length > 0 ? (
+        [...posts].reverse().map((p) => (
           <div className="posts" key={p.id} onClick={() => goToPost(p)}>
-            <Post key={p.id} postId={p.id} />
+            <Post data={p} />
           </div>
-        );
-      })}
-    </div >
+        ))
+      ) : (
+        <div className="no-posts">
+          <p>No posts yet. Be the first to share something!</p>
+        </div>
+      )}
+    </div>
   );
 };
 

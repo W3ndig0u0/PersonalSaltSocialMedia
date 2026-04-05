@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { commentOnPost, getPostById } from '../service/api';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { commentOnPost, getPostById } from "../service/api";
 
 function Post({ postId }) {
   const postParam = useParams();
@@ -16,19 +16,18 @@ function Post({ postId }) {
   const getPostData = async (postId) => {
     try {
       if (postId.postId) {
-        getPostById(postId.postId).then(postData => {
+        getPostById(postId.postId).then((postData) => {
           setPosts(postData);
         });
         return;
       }
-      getPostById(postId).then(postData => {
+      getPostById(postId).then((postData) => {
         setPosts(postData);
       });
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -48,8 +47,8 @@ function Post({ postId }) {
   const handleLike = async (post) => {
     console.log(user.name);
     await fetch(`http://localhost:8080/posts/${post.id}/like`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: user.name }),
     });
     getPostData(postId);
@@ -73,14 +72,20 @@ function Post({ postId }) {
     return `${seconds > 0 ? seconds : 0}s`;
   };
 
-
   return (
     <div className="post-list">
       <div className="post">
         <div className="post-flex">
           <div className="left">
             <a href={`/user/${post.username}`}>
-              <img className="profile-pic" src={post.user?.imageUrl || "https://i.pinimg.com/474x/33/f8/26/33f8266681c946cd80de486c499fe992.jpg"} alt="profile picture" />
+              <img
+                className="profile-pic"
+                src={
+                  post.user?.imageUrl ||
+                  "https://i.pinimg.com/474x/33/f8/26/33f8266681c946cd80de486c499fe992.jpg"
+                }
+                alt="profile picture"
+              />
             </a>
           </div>
           <div className="right">
@@ -91,15 +96,24 @@ function Post({ postId }) {
               <p className="timeago">{getTimeAgo(post.createdAt)}</p>
             </div>
             <p className="post-content">{post.content}</p>
-            {post.imageUrl && <img className="post-image" src={post.imageUrl} alt="Post image" />}
+            {post.imageUrl && (
+              <img
+                className="post-image"
+                src={post.imageUrl}
+                alt="Post image"
+              />
+            )}
             <div className="detail">
-              <span className="like-amount amount" onClick={
-                () => handleLike(post)
-              } >
+              <span
+                className="like-amount amount"
+                onClick={() => handleLike(post)}
+              >
                 ❤️ {post.likes?.length || 0}
               </span>
-              <span className="comment-amount amount"
-              > 🗣️ {post.comments?.length || 0}</span>
+              <span className="comment-amount amount">
+                {" "}
+                🗣️ {post.comments?.length || 0}
+              </span>
             </div>
           </div>
         </div>
@@ -110,9 +124,19 @@ function Post({ postId }) {
                 <div key={index} className="comment">
                   <div className="comment-top">
                     <a href={`/user/${comment.poster.username}`}>
-                      <img className="profile-pic" src={comment.poster?.imageUrl || "https://i.pinimg.com/474x/33/f8/26/33f8266681c946cd80de486c499fe992.jpg"} alt="profile picture" />
+                      <img
+                        className="profile-pic"
+                        src={
+                          comment.poster?.imageUrl ||
+                          "https://i.pinimg.com/474x/33/f8/26/33f8266681c946cd80de486c499fe992.jpg"
+                        }
+                        alt="profile picture"
+                      />
                     </a>
-                    <a className="post-user" href={`/user/${comment.poster.username}`}>
+                    <a
+                      className="post-user"
+                      href={`/user/${comment.poster.username}`}
+                    >
                       {comment.poster.username}
                     </a>
                     <p className="timeago">{getTimeAgo(comment.createdAt)}</p>
@@ -135,9 +159,9 @@ function Post({ postId }) {
             </div>
           </div>
         )}
-      </div >
-    </div >
-  )
-};
+      </div>
+    </div>
+  );
+}
 
 export default Post;

@@ -5,9 +5,7 @@ function Home() {
     <div className="feed-container">
       <PostList />
     </div>
-
-  )
+  );
 }
 
 export default Home;
-
