@@ -1,69 +1,53 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.UserDTO;
+import com.example.demo.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
-    public String register(@RequestBody User newUser) {
-        userRepository.save(newUser);
-        return "User " + newUser.getUsername() + " Saved!";
+    public ResponseEntity<UserDTO> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(request));
     }
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User loginDetails) {
-        User user = userRepository.findByUsername(loginDetails.getUsername());
-
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found!");
-        }
-
-        if (user.getPassword().equals(loginDetails.getPassword())) {
-            return ResponseEntity.ok(user.getUsername());
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Wrong Password!");
-        }
+    public ResponseEntity<UserDTO> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(userService.loginUser(request));
     }
 
-    @PostMapping("/{username}/bio")
-    public ResponseEntity<String> bio(@PathVariable String username, @RequestBody String bioText) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found!");
-        }
-        user.setBio(bioText);
-        userRepository.save(user);
-        return ResponseEntity.ok().build();
+    @PutMapping("/{username}/bio")
+    public ResponseEntity<UserDTO> updateBio(@PathVariable String username, @RequestBody String bioText) {
+        return ResponseEntity.ok(userService.updateBio(username, bioText));
     }
-    @PostMapping("/{username}/pfp")
-    public ResponseEntity<String> pfp(@PathVariable String username, @RequestBody String imageUrl) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found!");
-        }
-        user.setImageUrl(imageUrl);
-        userRepository.save(user);
-        return ResponseEntity.ok().build();
+
+    @PutMapping("/{username}/pfp")
+    public ResponseEntity<UserDTO> updatePfp(@PathVariable String username, @RequestBody String imageUrl) {
+        return ResponseEntity.ok(userService.updatePfp(username, imageUrl));
     }
 
     @GetMapping("/{username}")
-    public User getSpecificUser(@PathVariable  String username) {
-        return userRepository.findByUsername(username);
+    public ResponseEntity<UserDTO> getSpecificUser(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
     @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
-
 }
