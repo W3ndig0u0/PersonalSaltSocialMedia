@@ -1,94 +1,61 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-import org.springframework.http.HttpStatus;
+import com.example.demo.exception.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public UserDTO registerUser(RegisterRequest registerRequest) {
-        if (userRepository.findByUsername(registerRequest.username()) != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken!");
-        }
-
-        User user = new User();
-        user.setUsername(registerRequest.username());
-        user.setPassword(registerRequest.password());
-
-        User savedUser = userRepository.save(user);
-        return convertToDTO(savedUser);
-    }
-
-    public UserDTO loginUser(LoginRequest loginRequest) {
-        User user = userRepository.findByUsername(loginRequest.username());
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-
-        if (!user.getPassword().equals(loginRequest.password())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password");
-        }
-
+    @Transactional
+    public UserDTO syncUser(String auth0Id, String email, String nickname) {
+        User user = userRepository.findById(auth0Id)
+                .orElseGet(() -> {
+                    User newUser = new User();
+                    newUser.setAuth0Id(auth0Id);
+                    newUser.setEmail(email);
+                    newUser.setUsername(nickname != null ? nickname : email.split("@")[0]);
+                    return userRepository.save(newUser);
+                });
         return convertToDTO(user);
     }
 
-    public UserDTO updateBio(String username, String bioText) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-
+    @Transactional
+    public UserDTO updateBio(String auth0Id, String bioText) {
+        User user = userRepository.findById(auth0Id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         user.setBio(bioText);
-        User updatedUser = userRepository.save(user);
-        return convertToDTO(updatedUser);
+        return convertToDTO(user);
     }
 
-    public UserDTO updatePfp(String username, String imageUrl) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-
+    @Transactional
+    public UserDTO updatePfp(String auth0Id, String imageUrl) {
+        User user = userRepository.findById(auth0Id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         user.setImageUrl(imageUrl);
-        User updatedUser = userRepository.save(user);
-        return convertToDTO(updatedUser);
+        return convertToDTO(user);
     }
 
     public UserDTO getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        return convertToDTO(user);
+        return userRepository.findByUsername(username)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
     }
 
     public List<UserDTO> getAllUsers() {
-        return userRepository.findAll()
-                .stream()
-                .map(this::convertToDTO)
-                .toList();
+        return userRepository.findAll().stream().map(this::convertToDTO).toList();
     }
 
-    private UserDTO convertToDTO(User savedUser) {
-        return new UserDTO(
-                savedUser.getId(),
-                savedUser.getUsername(),
-                savedUser.getImageUrl(),
-                savedUser.getBio()
-        );
+    private UserDTO convertToDTO(User user) {
+        return new UserDTO(user.getAuth0Id(), user.getUsername(), user.getImageUrl(), user.getBio());
     }
 }

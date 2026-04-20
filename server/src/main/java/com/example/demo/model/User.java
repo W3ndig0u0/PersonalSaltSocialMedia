@@ -16,19 +16,14 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
-    private Long id;
+    private String auth0Id;
 
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
-    private String password;
-
     @Column(name = "image_url")
     private String imageUrl;
-
+    private String email;
     @Column()
     private String bio;
 }

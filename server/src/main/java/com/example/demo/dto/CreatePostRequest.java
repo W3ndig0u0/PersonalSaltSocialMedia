@@ -1,4 +1,8 @@
 package com.example.demo.dto;
 
-public record CreatePostRequest (String username, String content, String imageUrl) {
-}
+import jakarta.validation.constraints.NotBlank;
+
+public record CreatePostRequest (
+        @NotBlank String content,
+        String imageUrl
+) {}

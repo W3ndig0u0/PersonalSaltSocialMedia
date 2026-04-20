@@ -1,48 +1,47 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/users")
 @CrossOrigin(origins = "${app.frontend.url}")
-@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(request));
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getMyProfile(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.ok(userService.syncUser(
+                jwt.getSubject(),
+                jwt.getClaimAsString("email"),
+                jwt.getClaimAsString("nickname")
+        ));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(userService.loginUser(request));
+    @PatchMapping("/me/bio")
+    public ResponseEntity<UserDTO> updateBio(@AuthenticationPrincipal Jwt jwt, @RequestBody String bioText) {
+        return ResponseEntity.ok(userService.updateBio(jwt.getSubject(), bioText));
     }
 
-    @PutMapping("/{username}/bio")
-    public ResponseEntity<UserDTO> updateBio(@PathVariable String username, @RequestBody String bioText) {
-        return ResponseEntity.ok(userService.updateBio(username, bioText));
-    }
-
-    @PutMapping("/{username}/pfp")
-    public ResponseEntity<UserDTO> updatePfp(@PathVariable String username, @RequestBody String imageUrl) {
-        return ResponseEntity.ok(userService.updatePfp(username, imageUrl));
+    @PatchMapping("/me/pfp")
+    public ResponseEntity<UserDTO> updatePfp(@AuthenticationPrincipal Jwt jwt, @RequestBody String imageUrl) {
+        return ResponseEntity.ok(userService.updatePfp(jwt.getSubject(), imageUrl));
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<UserDTO> getSpecificUser(@PathVariable String username) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
+
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> users = userService.getAllUsers();
